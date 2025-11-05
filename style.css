@@ -1,0 +1,357 @@
+/* ---- Variables Globales y Reseteo ---- */
+:root {
+    --primary-color: #FF9900; /* Naranja AWS */
+    --secondary-color: #232F3E; /* Azul Oscuro AWS */
+    --light-grey: #f5f7fa; /* Fondo más limpio */
+    --dark-grey: #414d5c;
+    --white: #ffffff;
+    --success-green: #28a745;
+    --error-red: #dc3545;
+    
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--light-grey);
+    color: var(--dark-grey);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: var(--dark-grey);
+}
+
+/* ---- Navegación de Módulos (index.html) ---- */
+.module-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.module-card {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.module-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 2rem;
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+}
+
+.module-icon-svg {
+    width: 48px;
+    height: 48px;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.lock-icon-svg {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    color: #ced4da; /* Gris claro para el candado */
+}
+
+.module-card h2 {
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.module-card p {
+    font-size: 0.95rem;
+    color: var(--dark-grey);
+}
+
+/* ---- Estado Bloqueado ---- */
+.module-card.locked {
+    background: #f8f9fa;
+    opacity: 0.8;
+    filter: grayscale(80%);
+}
+
+.module-card.locked a {
+    pointer-events: none;
+    color: #6c757d;
+}
+
+.module-card.locked:hover {
+    transform: none;
+    box-shadow: var(--shadow-light);
+}
+
+.module-card:not(.locked) .lock-icon-svg {
+    display: none; /* Oculta el candado si no está bloqueado */
+}
+
+/* ---- Página del Módulo (module.html) ---- */
+.lesson-container {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+}
+
+/* ---- Estilos para la lista de lecciones ---- */
+#lesson-list {
+    padding: 1.5rem 2rem;
+}
+
+#lesson-list h3 {
+    border-bottom: 2px solid var(--light-grey);
+    padding-bottom: 10px;
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.lesson-item:hover {
+    background-color: var(--light-grey);
+}
+
+.lesson-item span {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.lesson-item button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.lesson-item button:hover {
+    background-color: #e68a00;
+    transform: scale(1.05);
+}
+
+.lesson-item .status-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+/* ---- Contenido de la Lección y Examen ---- */
+#lesson-content {
+    margin-top: 2rem;
+    padding: 2rem;
+    border-top: 2px solid var(--light-grey);
+}
+
+/* ---- Estilos para el contenido de la lección ---- */
+#lesson-content h3 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+
+#lesson-content h4 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+#lesson-content p {
+    margin-bottom: 1.25rem;
+    color: var(--dark-grey);
+    font-size: 1.05rem;
+}
+
+#lesson-content ol, #lesson-content ul {
+    margin-left: 20px;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+#lesson-content li {
+    margin-bottom: 0.75rem;
+}
+
+/* ---- ¡NUEVA REGLA PARA PALABRAS CLAVE! ---- */
+#lesson-content strong {
+    font-weight: 700; /* Un poco más grueso */
+    color: var(--secondary-color); /* Color azul oscuro AWS */
+}
+/* ------------------------------------------- */
+
+
+/* ---- Caja de Analogía ---- */
+.analogy-box {
+    background: #fffaf0; /* Naranja muy claro */
+    border-left: 5px solid var(--primary-color);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.analogy-box h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.analogy-box p {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* ---- Estilos del Examen (Mejorados) ---- */
+.quiz-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--light-grey);
+}
+
+.quiz-container h3 {
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+}
+
+.question {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.question p {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.options label {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.options label:hover {
+    background: #fcfcfc;
+    border-color: var(--primary-color);
+}
+
+.options input[type="radio"] {
+    margin-right: 12px;
+    transform: scale(1.1);
+}
+
+#submit-quiz {
+    background-color: var(--success-green);
+    color: white;
+    font-size: 1.1rem;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+#submit-quiz:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+#quiz-results {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+}
+
+#quiz-results.success {
+    background-color: #e6ffed;
+    border: 1px solid var(--success-green);
+    color: #155724;
+}
+
+#quiz-results.failure {
+    background-color: #ffeeee;
+    border: 1px solid var(--error-red);
+    color: #721c24;
+}
+
+.feedback {
+    margin-top: 1.5rem;
+    border-left-width: 5px;
+    border-left-style: solid;
+    padding: 12px 18px;
+    background: #f8f9fa;
+    border-radius: 0 8px 8px 0;
+}
+
+.feedback.correct {
+    border-color: var(--success-green);
+    background-color: #f0fff4;
+}
+
+.feedback.incorrect {
+    border-color: var(--error-red);
+    background-color: #fff8f8;
+}
+
+.feedback p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.feedback strong {
+    color: var(--secondary-color);
+}
