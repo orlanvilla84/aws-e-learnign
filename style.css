@@ -120,114 +120,160 @@ header p {
     display: none; /* Oculta el candado si no está bloqueado */
 }
 
-/* ---- Página del Módulo (module.html) ---- */
-.lesson-container {
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: var(--shadow-light);
+
+/* ---- ¡NUEVO! Página del Módulo (module.html) ---- */
+
+.module-wrapper {
+    display: flex;
+    height: 100vh;
 }
 
-/* ---- Estilos para la lista de lecciones ---- */
+/* ---- ¡NUEVO! Barra Lateral de Lecciones ---- */
+#lesson-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: var(--white);
+    border-right: 1px solid #e0e0e0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
 #lesson-list {
-    padding: 1.5rem 2rem;
+    padding: 1rem;
 }
 
 #lesson-list h3 {
+    padding-left: 0.5rem;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-top: 0;
     border-bottom: 2px solid var(--light-grey);
     padding-bottom: 10px;
-    color: var(--secondary-color);
-    font-size: 1.5rem;
-    margin-top: 0;
 }
 
 .lesson-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 1rem;
+    padding: 1rem 0.5rem;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 
 .lesson-item:hover {
     background-color: var(--light-grey);
 }
 
-.lesson-item span {
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-.lesson-item button {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 18px;
+.lesson-item.active {
+    background-color: #fffaf0;
+    border: 1px solid var(--primary-color);
     font-weight: bold;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.lesson-item button:hover {
-    background-color: #e68a00;
-    transform: scale(1.05);
 }
 
 .lesson-item .status-icon {
-    font-size: 1.5rem;
-    margin-right: 15px;
+    font-size: 1.2rem;
+    margin-right: 12px;
 }
 
-/* ---- Contenido de la Lección y Examen ---- */
-#lesson-content {
-    margin-top: 2rem;
+.lesson-item span {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ---- ¡NUEVO! Estilo de Lección Bloqueada ---- */
+.lesson-item.locked {
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.lesson-item.locked .status-icon {
+    color: #ccc;
+    font-size: 1rem; /* Hacer el candado un poco más pequeño */
+}
+
+.lesson-item.locked:hover {
+    background-color: var(--white); /* Sin efecto hover */
+}
+/* ------------------------------------- */
+
+
+/* ---- ¡NUEVO! Contenido Principal ---- */
+#lesson-main-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 0 3rem 3rem 3rem;
+}
+
+#lesson-main-content header {
+    text-align: left;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #ddd;
+    padding-top: 1.5rem;
+}
+
+#lesson-main-content header h1 {
+    font-size: 2.2rem;
+}
+
+.content-area {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
     padding: 2rem;
-    border-top: 2px solid var(--light-grey);
 }
 
-/* ---- Estilos para el contenido de la lección ---- */
-#lesson-content h3 {
+/* ---- Contenido de la Lección (Estudio) ---- */
+#lesson-study-content h3 {
     font-size: 1.8rem;
     color: var(--secondary-color);
     margin-bottom: 1.5rem;
     margin-top: 0;
 }
 
-#lesson-content h4 {
+#lesson-study-content h4 {
     font-size: 1.3rem;
     color: var(--secondary-color);
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
 
-#lesson-content p {
+#lesson-study-content p {
     margin-bottom: 1.25rem;
     color: var(--dark-grey);
     font-size: 1.05rem;
 }
 
-#lesson-content ol, #lesson-content ul {
+#lesson-study-content ol, #lesson-study-content ul {
     margin-left: 20px;
     margin-bottom: 1.5rem;
     padding-left: 1.5rem;
 }
 
-#lesson-content li {
+#lesson-study-content li {
     margin-bottom: 0.75rem;
 }
 
-/* ---- ¡NUEVA REGLA PARA PALABRAS CLAVE! ---- */
-#lesson-content strong {
+#lesson-study-content strong {
     font-weight: 700; /* Un poco más grueso */
     color: var(--secondary-color); /* Color azul oscuro AWS */
 }
-/* ------------------------------------------- */
 
-
-/* ---- Caja de Analogía ---- */
 .analogy-box {
     background: #fffaf0; /* Naranja muy claro */
     border-left: 5px solid var(--primary-color);
@@ -248,22 +294,55 @@ header p {
     font-size: 1rem;
 }
 
-/* ---- Estilos del Examen (Mejorados) ---- */
-.quiz-container {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 2px dashed var(--light-grey);
+/* ---- Botones de Acción (Hacer/Repasar Examen) ---- */
+.action-button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 2rem;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.quiz-container h3 {
-    font-size: 1.6rem;
+.action-button:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px);
+}
+
+#btn-repasar-tematica {
+    background-color: var(--dark-grey);
+    color: var(--white);
+}
+#btn-repasar-tematica:hover {
+    background-color: var(--secondary-color);
+}
+
+
+/* ---- Estilos del Examen (¡NUEVOS!) ---- */
+#lesson-quiz-container h3 {
+    font-size: 1.8rem;
     color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    margin-top: 0;
 }
 
 .question {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #eee;
+    /* Las preguntas están ocultas por defecto */
+    display: none; 
+}
+
+.question.active {
+    /* La pregunta activa se muestra */
+    display: block;
 }
 
 .question p {
@@ -287,26 +366,30 @@ header p {
     border-color: var(--primary-color);
 }
 
+/* ¡NUEVO! Estilo para opciones deshabilitadas */
+.options.disabled label {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.options.disabled label:hover {
+    background: var(--white);
+    border-color: #ddd;
+}
+
+/* ¡NUEVO! Estilo para la opción correcta/incorrecta seleccionada */
+.options.disabled label.selected.correct {
+    background-color: #e6ffed;
+    border-color: var(--success-green);
+}
+.options.disabled label.selected.incorrect {
+    background-color: #ffeeee;
+    border-color: var(--error-red);
+}
+
 .options input[type="radio"] {
     margin-right: 12px;
     transform: scale(1.1);
-}
-
-#submit-quiz {
-    background-color: var(--success-green);
-    color: white;
-    font-size: 1.1rem;
-    padding: 14px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-#submit-quiz:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
 }
 
 #quiz-results {
@@ -314,6 +397,7 @@ header p {
     padding: 1.5rem;
     border-radius: 8px;
     font-size: 1.1rem;
+    display: none; /* Oculto hasta el final */
 }
 
 #quiz-results.success {
@@ -335,16 +419,19 @@ header p {
     padding: 12px 18px;
     background: #f8f9fa;
     border-radius: 0 8px 8px 0;
+    display: none; /* Oculto hasta que se responda */
 }
 
 .feedback.correct {
     border-color: var(--success-green);
     background-color: #f0fff4;
+    display: block;
 }
 
 .feedback.incorrect {
     border-color: var(--error-red);
     background-color: #fff8f8;
+    display: block;
 }
 
 .feedback p {
