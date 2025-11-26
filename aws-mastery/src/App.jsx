@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import TopicContent from './components/TopicContent';
 import { courseData } from './data';
 import confetti from 'canvas-confetti';
+import { Menu } from 'lucide-react'; // Importamos el icono de menú
 
 function App() {
   // --- STATE MANAGEMENT ---
@@ -11,20 +12,20 @@ function App() {
     return saved ? JSON.parse(saved) : {};
   });
 
-  // Inicialmente desbloqueamos el primer tema del primer módulo
   const [unlockedTopics, setUnlockedTopics] = useState(() => {
     const saved = localStorage.getItem('awsMasteryUnlockedTopics');
-    // Si no hay nada guardado, desbloqueamos el ID "1-1"
     return saved ? JSON.parse(saved) : ["1-1"];
   });
 
-  // Inicialmente desbloqueamos el primer módulo
   const [unlockedModules, setUnlockedModules] = useState(() => {
     const saved = localStorage.getItem('awsMasteryUnlockedModules');
     return saved ? JSON.parse(saved) : [1];
   });
 
   const [activeTopic, setActiveTopic] = useState(courseData[0].topics[0]);
+  
+  // Nuevo estado para controlar el menú en celular
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // --- PERSISTENCE ---
   useEffect(() => {
@@ -35,11 +36,9 @@ function App() {
 
   // --- CORE LOGIC ---
   const handleQuizComplete = (scorePercentage) => {
-    // 1. Guardar el progreso
     const newProgress = { ...progress, [activeTopic.id]: scorePercentage };
     setProgress(newProgress);
 
-    // 2. Si aprobó (100%), calcular qué sigue
     if (scorePercentage === 100) {
       unlockNextContent(activeTopic.id);
       confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
@@ -50,7 +49,6 @@ function App() {
     let currentModuleIndex = -1;
     let currentTopicIndex = -1;
 
-    // Buscar índices actuales
     courseData.forEach((mod, mIdx) => {
       mod.topics.forEach((top, tIdx) => {
         if (top.id === currentTopicId) {
@@ -64,41 +62,64 @@ function App() {
 
     const currentModule = courseData[currentModuleIndex];
     
-    // ESCENARIO A: Hay más temas en este módulo
     if (currentTopicIndex < currentModule.topics.length - 1) {
       const nextTopicId = currentModule.topics[currentTopicIndex + 1].id;
       if (!unlockedTopics.includes(nextTopicId)) {
         setUnlockedTopics(prev => [...prev, nextTopicId]);
       }
     } 
-    // ESCENARIO B: Se acabó el módulo, desbloquear el siguiente módulo
     else if (currentModuleIndex < courseData.length - 1) {
       const nextModuleId = courseData[currentModuleIndex + 1].id;
       const nextModuleFirstTopicId = courseData[currentModuleIndex + 1].topics[0].id;
       
-      // Desbloquear módulo
       if (!unlockedModules.includes(nextModuleId)) {
         setUnlockedModules(prev => [...prev, nextModuleId]);
       }
-      // Desbloquear primer tema del siguiente módulo
       if (!unlockedTopics.includes(nextModuleFirstTopicId)) {
         setUnlockedTopics(prev => [...prev, nextModuleFirstTopicId]);
       }
     }
   };
 
+  // Función para cerrar el sidebar cuando se elige un tema en mobile
+  const handleTopicSelect = (topic) => {
+    setActiveTopic(topic);
+    setIsSidebarOpen(false); // Cerrar menú automáticamente
+  };
+
   return (
-    <div className="flex min-h-screen bg-gray-50 font-sans">
+    <div className="flex min-h-screen bg-gray-50 font-sans flex-col md:flex-row">
+      
+      {/* BARRA SUPERIOR MÓVIL (Solo visible en celular) */}
+      <div className="md:hidden bg-aws-dark text-white p-4 flex items-center justify-between sticky top-0 z-50 shadow-md">
+        <span className="font-bold text-lg">AWS Mastery</span>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-700 rounded">
+          <Menu size={24} />
+        </button>
+      </div>
+
+      {/* Sidebar con lógica responsiva */}
       <Sidebar 
         modules={courseData}
         activeTopic={activeTopic}
-        setActiveTopic={setActiveTopic}
+        setActiveTopic={handleTopicSelect}
         progress={progress}
         unlockedModules={unlockedModules}
         unlockedTopics={unlockedTopics}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
       
-      <main className="flex-1 md:ml-80 transition-all duration-300">
+      {/* Overlay para oscurecer el fondo cuando el menú está abierto en móvil */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        ></div>
+      )}
+      
+      {/* Main Content Area */}
+      <main className="flex-1 md:ml-80 transition-all duration-300 w-full">
         <TopicContent 
           topic={activeTopic}
           onQuizComplete={handleQuizComplete}
